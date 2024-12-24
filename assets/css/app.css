@@ -3,3 +3,16 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+
+/* Autocomplete.js */
+.autocomplete input[role="combobox"][disabled] {
+  @apply bg-gray-50 text-gray-500 ring-gray-200
+}
+
+.autocomplete-result {
+  @apply relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900
+}
+
+.autocomplete-result:hover,.autocomplete-result[aria-selected=true] {
+  @apply text-white bg-indigo-500
+}

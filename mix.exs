@@ -19,7 +19,7 @@ defmodule PhoenixRecipes.MixProject do
   def application do
     [
       mod: {PhoenixRecipes.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :google_maps]
     ]
   end
 
@@ -57,7 +57,8 @@ defmodule PhoenixRecipes.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.2"}
+      {:bandit, "~> 1.2"},
+      {:google_maps, "~> 0.11.0"}
     ]
   end
 

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@trevoreyre/autocomplete-js": "^3.0.3"
+  }
+}

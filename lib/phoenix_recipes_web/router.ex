@@ -17,7 +17,13 @@ defmodule PhoenixRecipesWeb.Router do
   scope "/", PhoenixRecipesWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", AutocompleteLive
+  end
+
+  scope "/api", PhoenixRecipesWeb do
+    pipe_through :api
+
+    get "/address/query", ApiController, :query
   end
 
   # Other scopes may use custom stacks.
