@@ -26,6 +26,28 @@ defmodule PhoenixRecipesWeb.AutocompleteLive do
         </ul>
       </div>
 
+      <div class="mt-12">
+        <.form for={@form}>
+          <.input
+            type="text"
+            phx-change="search"
+            phx-debounce={300}
+            field={@form[:search_text]}
+            placeholder="Search address"
+          />
+          <div :if={@options != []} class="mt-1 border border-gray-100 rounded-md shadow-sm">
+            <div
+              :for={{label, value} <- @options}
+              class="text-gray-700 text-sm p-2 hover:bg-indigo-500 hover:text-white hover:cursor-pointer"
+              phx-click="address-selected"
+              phx-value-place_id={value}
+            >
+              <span><%= label %></span>
+            </div>
+          </div>
+        </.form>
+      </div>
+
       <div :if={@result} class="mt-12 border rounded-lg overflow-x-auto overflow-y-auto h-96">
         <pre>
           <%= inspect(@result, pretty: true)%>
@@ -37,13 +59,27 @@ defmodule PhoenixRecipesWeb.AutocompleteLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, result: nil)}
+    {:ok, assign(socket, result: nil, options: [], form: to_form(%{"search_text" => ""}))}
   end
 
   @impl true
   def handle_event("address-selected", %{"place_id" => place_id}, socket) do
     result = AddressAutocomplete.get_place(place_id)
 
-    {:noreply, assign(socket, result: result)}
+    {:noreply, assign(socket, result: result, options: [])}
+  end
+
+  @impl true
+  def handle_event("search", %{"search_text" => search_text}, socket) do
+    options =
+      if String.length(search_text) > 2 do
+        search_text
+        |> AddressAutocomplete.predictions()
+        |> Enum.map(fn prediction -> {prediction.description, prediction.place_id} end)
+      else
+        []
+      end
+
+    {:noreply, assign(socket, options: options)}
   end
 end
