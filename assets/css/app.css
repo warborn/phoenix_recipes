@@ -1,5 +1,6 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "../node_modules/mapbox-gl/dist/mapbox-gl.css";
 
 /* This file is for your main application CSS */
